@@ -1,71 +1,54 @@
 const numBtn = document.querySelectorAll(".num");
+const operBtn = document.querySelectorAll(".right-column");
 const display = document.querySelector(".display");
 const clearBtn = document.querySelector("#clear-btn");
-const operBtn = document.querySelectorAll(".right-column");
-
-let outputStack = [];
-
-operBtn.forEach(operation => {
-    operation.addEventListener("click", () => {
-        const operator = operation.textContent;
-        if (outputStack.length == 2) {
-           const result = calcResult(outputStack, operator);
-           outputStack.length = 0;
-           outputStack.push(result);
-           display.textContent = outputStack[0];
-           display.setAttribute("value", "0");
-           return;
-        }
-        outputStack.push(parseFloat(display.textContent));
-        display.textContent = outputStack[0];
-        display.setAttribute("value", "0");
-    });
-})
+const eqaulsBtn = document.querySelector("#equals-btn");
+let performingArithmatic = false;
+let numbersToBeEvaluated = [];
+let operationToBePerformed = [];
 
 numBtn.forEach(number => {
     number.addEventListener("click", () => {
-        if (display.textContent == 0) {
+        if (display.textContent == 0 || performingArithmatic) {
             display.textContent = number.textContent;
-        }
-        else if (display.getAttribute("value") == 0) {
-            display.textContent = number.textContent;
-            outputStack.push(parseFloat(display.textContent));
-            display.setAttribute("value", "1");
+            performingArithmatic = false;
         }
         else {
-            display.textContent = display.textContent + number.textContent;            
+            display.textContent = display.textContent + number.textContent;
         }
     })
-});
-
-clearBtn.addEventListener("click", () => {
-    if (display.textContent == 0) {
-        return;
-    }
-    display.textContent = 0;
-    // clear the stack after
 })
 
+operBtn.forEach(operation => {
+    operation.addEventListener("click", () => {
+        performingArithmatic = true;
+        numbersToBeEvaluated.push(parseFloat(display.textContent)); // at the step where the array has 2 elements, the calculated value must be displayed
+        operationToBePerformed.push(operation.textContent); // there will be 2 numbers as such : a + b +
+        if (numbersToBeEvaluated.length == 2) {
+            display.textContent = calculate(numbersToBeEvaluated, operationToBePerformed); // use pop for operands, use shift for operators
+            numbersToBeEvaluated.push(parseFloat(display.textContent));
+        }
+    })
+})
 
-function calcResult(numArr, operator) {
-    let result = 0;
-    switch (operator) {
+eqaulsBtn.addEventListener("click", () => {
+    numbersToBeEvaluated.push(parseFloat(display.textContent));
+})
+
+function calculate(operands, operator) {
+    const operation = operator.shift();
+    const secondValue = operands.pop();
+    const firstValue = operands.pop(); // − ÷ + x (also leaves the operands array empty)
+
+    switch (operation) {
         case "÷":
-            result = numArr.reduce((x,y) => x/y);
-            break;
+            return firstValue / secondValue;
         case "x":
-            result = numArr.reduce((x,y) => x * y);
-            break;
-        case "÷":
-            result = numArr.reduce((x,y) => x - y);
-            break;
+            return firstValue * secondValue;
+        case "−":
+            return firstValue - secondValue;
         case "+":
-            result = numArr.reduce((x,y) => x + y);    
-            break;        
+            return firstValue + secondValue;
     }
-    return result;
 }
 
-function isNumeric(n) {
-    return !isNaN(parseFloat(n)) && isFinite(n);
-}

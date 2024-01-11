@@ -35,7 +35,13 @@ body {
     font-family: Arial, Helvetica, sans-serif;
     font-size: 42px;
     border: none;
+    cursor: pointer;
+    transition: background-color 0.2s ease-out;
     border-radius: 50%;
+}
+
+.num:active {
+    background-color: #656565;
 }
 
 .top-row {
@@ -46,6 +52,11 @@ body {
 .right-column {
     background-color: #fe9505;
     font-size: 52px;
+}
+
+.right-column:active {
+    color: #fe9505;
+    background-color: white;
 }
 
 #zero {
