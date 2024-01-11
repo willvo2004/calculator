@@ -35,6 +35,10 @@ eqaulsBtn.addEventListener("click", () => {
     numbersToBeEvaluated.push(parseFloat(display.textContent));
 })
 
+clearBtn.addEventListener("click", () => {
+    display.textContent = "0";
+})
+
 function calculate(operands, operator) {
     const operation = operator.shift();
     const secondValue = operands.pop();
