@@ -4,19 +4,45 @@ body {
     background-color: black;
 }
 
+.calculator-body {
+    width: 448px;
+    display: flex;
+    flex-direction: column;
+}
+
+.output-container {
+    padding: 18px;
+    text-align: end;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 62px;
+    color: white;
+}
+
 .input-container {
-    width: 424px;
+    width: 448px;
     display: flex;
     flex-wrap: wrap;
-    gap: 0.5rem;
+    gap: 1rem;
 }
 
 .btn {
-    color: #11162b;
+    color: white;
+    background-color: #333333;
     height: 100px;
     width: 100px;
+    font-family: Arial, Helvetica, sans-serif;
     font-size: 42px;
+    border: none;
     border-radius: 50%;
+}
+
+.top-row {
+    background-color: #a5a5a5;
+    color: black;
+}
+
+.right-column {
+    background-color: #fe9505;
 }
 
 #zero {
